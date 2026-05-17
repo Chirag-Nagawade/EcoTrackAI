@@ -1,0 +1,26 @@
+[
+    {
+        "Model": "Multiple Linear Regression",
+        "MAE": 0.234,
+        "RMSE": 0.3408,
+        "R2 Score": 0.9846
+    },
+    {
+        "Model": "Decision Tree Regressor",
+        "MAE": 0.6045,
+        "RMSE": 0.8165,
+        "R2 Score": 0.9116
+    },
+    {
+        "Model": "Random Forest Regressor",
+        "MAE": 0.4249,
+        "RMSE": 0.5633,
+        "R2 Score": 0.9579
+    },
+    {
+        "Model": "AdaBoost Regressor",
+        "MAE": 0.7543,
+        "RMSE": 0.9262,
+        "R2 Score": 0.8863
+    }
+]

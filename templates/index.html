@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section d-flex align-items-center">
+    <div class="container text-center text-white z-index-1 position-relative">
+        <h1 class="display-3 fw-bold mb-4 gradient-text">Track Your Carbon Footprint</h1>
+        <p class="lead mb-5 max-w-700 mx-auto opacity-90">Discover how your lifestyle impacts the environment. Our AI-powered system analyzes your daily habits—transport, electricity, food, and waste—to estimate your carbon emission and suggest personalized eco-friendly actions.</p>
+        
+        <div class="d-flex justify-content-center gap-3">
+            {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('signup') }}" class="btn btn-success btn-lg px-5 py-3 rounded-pill fw-bold shadow-lg hero-btn">
+                <i class="fa-solid fa-user-plus me-2"></i> Create Account
+            </a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold hero-btn-outline">
+                <i class="fa-solid fa-right-to-bracket me-2"></i> Login
+            </a>
+            {% else %}
+            <a href="{{ url_for('form') }}" class="btn btn-success btn-lg px-5 py-3 rounded-pill fw-bold shadow-lg hero-btn">
+                <i class="fa-solid fa-calculator me-2"></i> Calculate Now
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="overlay"></div>
+</div>
+
+<div class="container my-5 py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold fs-1 mb-3">Why EcoTrack AI?</h2>
+        <div class="divider mx-auto mb-4"></div>
+        <p class="text-muted max-w-700 mx-auto">Understanding your carbon footprint is the first step towards a sustainable future. Small changes in your daily routine can lead to a massive global impact.</p>
+    </div>
+
+    <div class="row g-4 mt-4">
+        <div class="col-md-4">
+            <div class="feature-card text-center p-5 rounded-4 h-100">
+                <div class="icon-circle bg-success-subtle text-success mb-4 mx-auto">
+                    <i class="fa-solid fa-brain fs-2"></i>
+                </div>
+                <h4 class="fw-bold mb-3">AI Predictions</h4>
+                <p class="text-muted">Uses advanced Machine Learning algorithms (Random Forest, AdaBoost) to accurately estimate your daily CO₂ emissions.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center p-5 rounded-4 h-100">
+                <div class="icon-circle bg-info-subtle text-info mb-4 mx-auto">
+                    <i class="fa-solid fa-chart-line fs-2"></i>
+                </div>
+                <h4 class="fw-bold mb-3">Interactive Insights</h4>
+                <p class="text-muted">Visualize your environmental impact through dynamic charts and feature importance analysis.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center p-5 rounded-4 h-100">
+                <div class="icon-circle bg-warning-subtle text-warning mb-4 mx-auto">
+                    <i class="fa-solid fa-lightbulb fs-2"></i>
+                </div>
+                <h4 class="fw-bold mb-3">Eco Suggestions</h4>
+                <p class="text-muted">Receive personalized recommendations to reduce your carbon footprint and live a greener lifestyle.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

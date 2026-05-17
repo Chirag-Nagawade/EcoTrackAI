@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Result Card -->
+            <div class="card shadow-lg border-0 rounded-4 glass-card text-center overflow-hidden">
+                <div class="card-header py-4 rounded-top-4
+                    {% if record.carbon_level == 'LOW' %}bg-result-low
+                    {% elif record.carbon_level == 'MEDIUM' %}bg-result-medium
+                    {% else %}bg-result-high{% endif %}">
+                    <h3 class="mb-0 fw-bold text-white">
+                        <i class="fa-solid fa-earth-americas me-2"></i> Your Carbon Footprint Result
+                    </h3>
+                </div>
+
+                <div class="card-body p-5">
+                    <!-- Predicted Value -->
+                    <div class="result-value mb-4">
+                        <span class="display-2 fw-bold 
+                            {% if record.carbon_level == 'LOW' %}text-success
+                            {% elif record.carbon_level == 'MEDIUM' %}text-warning
+                            {% else %}text-danger{% endif %}">
+                            {{ record.predicted_carbon }}
+                        </span>
+                        <p class="fs-5 text-muted mt-2">kg CO₂ / day</p>
+                    </div>
+
+                    <!-- Carbon Level Badge -->
+                    <div class="mb-5">
+                        {% if record.carbon_level == 'LOW' %}
+                            <span class="badge rounded-pill px-5 py-3 fs-5 bg-success shadow">🌿 LOW Impact</span>
+                        {% elif record.carbon_level == 'MEDIUM' %}
+                            <span class="badge rounded-pill px-5 py-3 fs-5 bg-warning text-dark shadow">🌍 MEDIUM Impact</span>
+                        {% else %}
+                            <span class="badge rounded-pill px-5 py-3 fs-5 bg-danger shadow">🔥 HIGH Impact</span>
+                        {% endif %}
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Input Summary -->
+                    <h5 class="fw-bold mb-4 text-start"><i class="fa-solid fa-clipboard-list me-2 text-success"></i>Your Input Summary</h5>
+                    <div class="row text-start g-3 mb-5">
+                        <div class="col-6 col-md-4">
+                            <div class="summary-item p-3 rounded-3">
+                                <small class="text-muted d-block">Transport</small>
+                                <strong>{{ record.transport_mode }}</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="summary-item p-3 rounded-3">
+                                <small class="text-muted d-block">Distance</small>
+                                <strong>{{ record.distance_km }} km</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="summary-item p-3 rounded-3">
+                                <small class="text-muted d-block">Electricity</small>
+                                <strong>{{ record.electricity_kwh }} kWh</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="summary-item p-3 rounded-3">
+                                <small class="text-muted d-block">Renewable %</small>
+                                <strong>{{ record.renewable_usage_pct }}%</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="summary-item p-3 rounded-3">
+                                <small class="text-muted d-block">Diet</small>
+                                <strong>{{ record.food_type }}</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="summary-item p-3 rounded-3">
+                                <small class="text-muted d-block">Waste</small>
+                                <strong>{{ record.waste_generated_kg }} kg</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- What-If Simulator -->
+                    <h5 class="fw-bold mb-4 text-start"><i class="fa-solid fa-flask text-info me-2"></i>What-If Simulator</h5>
+                    <div class="card bg-dark border-1 border-secondary rounded-3 p-4 mb-5 text-start">
+                        <p class="text-muted small mb-4">Tweak the values below to see how changes in your habits could reduce your carbon footprint.</p>
+                        
+                        <form id="simulatorForm">
+                            <input type="hidden" id="sim_day_type" value="{{ record.day_type }}">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Transport Mode</label>
+                                    <select class="form-select bg-dark text-white border-secondary" id="sim_transport_mode">
+                                        <option value="Car" {% if record.transport_mode == 'Car' %}selected{% endif %}>Car</option>
+                                        <option value="Bike" {% if record.transport_mode == 'Bike' %}selected{% endif %}>Bike</option>
+                                        <option value="Bus" {% if record.transport_mode == 'Bus' %}selected{% endif %}>Bus</option>
+                                        <option value="Train" {% if record.transport_mode == 'Train' %}selected{% endif %}>Train</option>
+                                        <option value="Walk" {% if record.transport_mode == 'Walk' %}selected{% endif %}>Walking</option>
+                                        <option value="EV" {% if record.transport_mode == 'EV' %}selected{% endif %}>Electric Vehicle</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Distance (km)</label>
+                                    <input type="number" step="0.1" class="form-control bg-dark text-white border-secondary" id="sim_distance" value="{{ record.distance_km }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Electricity (kWh)</label>
+                                    <input type="number" step="0.1" class="form-control bg-dark text-white border-secondary" id="sim_electricity" value="{{ record.electricity_kwh }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Renewable %</label>
+                                    <input type="number" step="1" class="form-control bg-dark text-white border-secondary" id="sim_renewable" value="{{ record.renewable_usage_pct }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Diet</label>
+                                    <select class="form-select bg-dark text-white border-secondary" id="sim_diet">
+                                        <option value="Veg" {% if record.food_type == 'Veg' %}selected{% endif %}>Vegetarian</option>
+                                        <option value="Non-Veg" {% if record.food_type == 'Non-Veg' %}selected{% endif %}>Non-Vegetarian</option>
+                                        <option value="Vegan" {% if record.food_type == 'Vegan' %}selected{% endif %}>Vegan</option>
+                                        <option value="Mixed" {% if record.food_type == 'Mixed' %}selected{% endif %}>Mixed</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Waste (kg)</label>
+                                    <input type="number" step="0.1" class="form-control bg-dark text-white border-secondary" id="sim_waste" value="{{ record.waste_generated_kg }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Screen Time (hrs)</label>
+                                    <input type="number" step="0.1" class="form-control bg-dark text-white border-secondary" id="sim_screen_time" value="{{ record.screen_time_hours }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Eco Actions</label>
+                                    <input type="number" step="1" class="form-control bg-dark text-white border-secondary" id="sim_eco" value="{{ record.eco_actions }}">
+                                </div>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <button type="button" class="btn btn-info px-4 rounded-pill fw-bold text-white shadow-sm" onclick="runSimulation()">
+                                    <i class="fa-solid fa-play me-2"></i> Simulate Scenario
+                                </button>
+                            </div>
+                        </form>
+
+                        <div id="simulationResult" class="mt-4 text-center d-none p-3 rounded-3" style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent-green);">
+                            <h4 class="mb-2 fw-bold text-success">Simulated Footprint: <span id="sim_val"></span> kg CO₂</h4>
+                            <p class="mb-0 text-muted" id="sim_diff_text"></p>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Suggestions -->
+                    <h5 class="fw-bold mb-4 text-start"><i class="fa-solid fa-lightbulb me-2 text-warning"></i>Eco-Friendly Suggestions</h5>
+                    <div class="text-start">
+                        {% if record.carbon_level == 'HIGH' %}
+                        <div class="suggestion-card suggestion-high p-4 rounded-3 mb-3">
+                            <ul class="mb-0 list-unstyled">
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-danger me-2"></i> Reduce private vehicle usage — consider carpooling or public transport</li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-danger me-2"></i> Turn off appliances when not in use to save electricity</li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-danger me-2"></i> Reduce food waste and consider more plant-based meals</li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-danger me-2"></i> Invest in renewable energy sources like solar panels</li>
+                                <li><i class="fa-solid fa-circle-check text-danger me-2"></i> Adopt composting practices for organic waste</li>
+                            </ul>
+                        </div>
+                        {% elif record.carbon_level == 'MEDIUM' %}
+                        <div class="suggestion-card suggestion-medium p-4 rounded-3 mb-3">
+                            <ul class="mb-0 list-unstyled">
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-warning me-2"></i> Use public transport or cycle for short commutes</li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-warning me-2"></i> Recycle waste and separate biodegradable waste</li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-warning me-2"></i> Reduce screen time and unplug chargers when not needed</li>
+                                <li><i class="fa-solid fa-circle-check text-warning me-2"></i> Increase your eco-friendly actions each day</li>
+                            </ul>
+                        </div>
+                        {% else %}
+                        <div class="suggestion-card suggestion-low p-4 rounded-3 mb-3">
+                            <ul class="mb-0 list-unstyled">
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i> Excellent! Keep maintaining your eco-friendly lifestyle</li>
+                                <li class="mb-2"><i class="fa-solid fa-circle-check text-success me-2"></i> Inspire others by sharing your sustainable habits</li>
+                                <li><i class="fa-solid fa-circle-check text-success me-2"></i> Explore community-level environmental initiatives</li>
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-center gap-3 mt-5">
+                        <a href="{{ url_for('form') }}" class="btn btn-success btn-lg rounded-pill px-4 fw-bold shadow">
+                            <i class="fa-solid fa-rotate-right me-2"></i> Predict Again
+                        </a>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-lg rounded-pill px-4 fw-bold">
+                            <i class="fa-solid fa-chart-pie me-2"></i> View Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const originalCarbon = parseFloat("{{ record.predicted_carbon }}");
+
+    function runSimulation() {
+        const btn = document.querySelector('[onclick="runSimulation()"]');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Simulating...';
+
+        const payload = {
+            day_type: document.getElementById('sim_day_type').value,
+            transport_mode: document.getElementById('sim_transport_mode').value,
+            distance_km: parseFloat(document.getElementById('sim_distance').value) || 0,
+            electricity_kwh: parseFloat(document.getElementById('sim_electricity').value) || 0,
+            renewable_usage_pct: parseFloat(document.getElementById('sim_renewable').value) || 0,
+            food_type: document.getElementById('sim_diet').value,
+            waste_generated_kg: parseFloat(document.getElementById('sim_waste').value) || 0,
+            screen_time_hours: parseFloat(document.getElementById('sim_screen_time').value) || 0,
+            eco_actions: parseInt(document.getElementById('sim_eco').value) || 0
+        };
+
+        fetch('/simulate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-play me-2"></i> Simulate Scenario';
+
+            if (data.success) {
+                const simVal = parseFloat(data.predicted_carbon);
+                const diff = parseFloat((originalCarbon - simVal).toFixed(2));
+                const diffEl = document.getElementById('sim_diff_text');
+                const resultBox = document.getElementById('simulationResult');
+                const simValEl = document.getElementById('sim_val');
+
+                simValEl.innerText = simVal.toFixed(2);
+                resultBox.classList.remove('d-none');
+
+                if (diff > 0) {
+                    resultBox.style.cssText = 'background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.5);';
+                    simValEl.className = 'text-success fw-bold';
+                    diffEl.innerHTML = `You would <strong>save ${diff} kg CO\u2082</strong>! <i class="fa-solid fa-arrow-trend-down text-success ms-1"></i>`;
+                } else if (diff < 0) {
+                    resultBox.style.cssText = 'background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.5);';
+                    simValEl.className = 'text-danger fw-bold';
+                    diffEl.innerHTML = `Footprint would <strong>increase by ${Math.abs(diff)} kg CO\u2082</strong>. <i class="fa-solid fa-arrow-trend-up text-danger ms-1"></i>`;
+                } else {
+                    resultBox.style.cssText = 'background: rgba(100,100,100,0.1); border: 1px solid rgba(150,150,150,0.4);';
+                    simValEl.className = 'text-muted fw-bold';
+                    diffEl.innerHTML = 'No change in your carbon footprint.';
+                }
+            } else {
+                alert('Simulation error: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(err => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-play me-2"></i> Simulate Scenario';
+            console.error(err);
+            alert('Network error. Please try again.');
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold fs-1 mb-3"><i class="fa-solid fa-chart-pie text-success me-2"></i>Analytics Dashboard</h2>
+        <div class="divider mx-auto mb-3"></div>
+        <p class="text-muted max-w-700 mx-auto">Prediction statistics from your EcoTrack AI system.</p>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row g-4 mb-5" id="statsRow">
+        <div class="col-md-3">
+            <div class="stat-card text-center p-4 rounded-4 h-100">
+                <i class="fa-solid fa-database fs-1 text-success mb-3"></i>
+                <h3 class="fw-bold" id="totalPredictions">—</h3>
+                <p class="text-muted mb-0">Total Predictions</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center p-4 rounded-4 h-100">
+                <i class="fa-solid fa-leaf fs-1 text-success mb-3"></i>
+                <h3 class="fw-bold text-success" id="lowCount">—</h3>
+                <p class="text-muted mb-0">LOW Impact</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center p-4 rounded-4 h-100">
+                <i class="fa-solid fa-earth-americas fs-1 text-warning mb-3"></i>
+                <h3 class="fw-bold text-warning" id="mediumCount">—</h3>
+                <p class="text-muted mb-0">MEDIUM Impact</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card text-center p-4 rounded-4 h-100">
+                <i class="fa-solid fa-fire fs-1 text-danger mb-3"></i>
+                <h3 class="fw-bold text-danger" id="highCount">—</h3>
+                <p class="text-muted mb-0">HIGH Impact</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Graph Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 rounded-4 glass-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-calendar-week text-primary me-2"></i>Weekly Footprint
+                        Trend</h5>
+                    <div style="height: 300px;">
+                        <canvas id="weeklyGraphChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row g-4 mb-4 justify-content-center">
+        <!-- Pie Chart - Carbon Levels -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100 glass-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-chart-pie text-success me-2"></i>Carbon Level
+                        Distribution</h5>
+                    <canvas id="levelPieChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Polar Area Chart - Impact Breakdown -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100 glass-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-layer-group text-warning me-2"></i>Emission Breakdown
+                        (Latest)</h5>
+                    <canvas id="impactBreakdownChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

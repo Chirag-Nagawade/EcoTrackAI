@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold fs-1 mb-3"><i class="fa-solid fa-screwdriver-wrench text-info me-2"></i>Admin Dashboard</h2>
+        <div class="divider mx-auto mb-3 bg-info"></div>
+        <p class="text-muted max-w-700 mx-auto">Overview of system model metrics and recent user predictions.</p>
+    </div>
+
+    <!-- Recent Users Table -->
+    <div class="row g-4 mb-5">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 rounded-4 glass-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-users text-success me-2"></i>Recent User Predictions (Past 7 Days)</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="usersTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>User Name</th>
+                                    <th>Carbon Emission (kg)</th>
+                                    <th>Impact Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row g-4 mb-4">
+        <!-- Model Comparison Bar Chart -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100 glass-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-ranking-star text-info me-2"></i>Model Accuracy Comparison (R² Score)</h5>
+                    <canvas id="modelComparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Feature Importance -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100 glass-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-arrow-up-right-dots text-warning me-2"></i>Feature Importance (Random Forest)</h5>
+                    <canvas id="featureImportanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row g-4 mb-4">
+        <!-- Model Error Comparison -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100 glass-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i>Model Error Comparison (MAE & RMSE)</h5>
+                    <canvas id="errorComparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Model Metrics Table -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100 glass-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-table text-secondary me-2"></i>Model Evaluation Metrics</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="metricsTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Model</th>
+                                    <th>MAE</th>
+                                    <th>RMSE</th>
+                                    <th>R² Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>
+{% endblock %}

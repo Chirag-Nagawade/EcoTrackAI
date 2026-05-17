@@ -1,0 +1,58 @@
+[
+    {
+        "Feature": "fossil_fuel_electricity_kwh",
+        "Importance": 0.6112604047652623
+    },
+    {
+        "Feature": "food_type_Non-Veg",
+        "Importance": 0.2266310145404941
+    },
+    {
+        "Feature": "food_type_Veg",
+        "Importance": 0.04707844815294912
+    },
+    {
+        "Feature": "transport_mode_Car",
+        "Importance": 0.04678616793464039
+    },
+    {
+        "Feature": "distance_km",
+        "Importance": 0.021724358300270502
+    },
+    {
+        "Feature": "eco_actions",
+        "Importance": 0.015528424774453153
+    },
+    {
+        "Feature": "waste_generated_kg",
+        "Importance": 0.012217591024737908
+    },
+    {
+        "Feature": "electricity_kwh",
+        "Importance": 0.007337949421272722
+    },
+    {
+        "Feature": "screen_time_hours",
+        "Importance": 0.005302973274411201
+    },
+    {
+        "Feature": "transport_mode_Bus",
+        "Importance": 0.0025153345341070417
+    },
+    {
+        "Feature": "renewable_usage_pct",
+        "Importance": 0.0012539433511139996
+    },
+    {
+        "Feature": "day_type_Weekend",
+        "Importance": 0.0009520401634807449
+    },
+    {
+        "Feature": "transport_mode_Walk",
+        "Importance": 0.0009342382303175341
+    },
+    {
+        "Feature": "transport_mode_EV",
+        "Importance": 0.00047711153248931887
+    }
+]

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 glass-card">
+                <div class="card-header bg-success text-white text-center py-4 rounded-top-4">
+                    <h3 class="mb-0 fw-bold"><i class="fa-solid fa-calculator me-2"></i> Calculate Your Footprint</h3>
+                </div>
+                <div class="card-body p-5">
+                    <form action="{{ url_for('predict') }}" method="POST" id="predictionForm">
+                        
+                        <div class="row g-4">
+                            <!-- Transport Mode -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Transport Mode</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-car text-success"></i></span>
+                                    <select class="form-select border-start-0" name="transport_mode" required>
+                                        <option value="" selected disabled>Select Mode...</option>
+                                        <option value="Car">Car</option>
+                                        <option value="Bike">Bike</option>
+                                        <option value="Bus">Bus</option>
+                                        <option value="Train">Train</option>
+                                        <option value="Walk">Walking</option>
+                                        <option value="EV">Electric Vehicle (EV)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Distance -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Daily Distance (km)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-road text-success"></i></span>
+                                    <input type="number" step="0.01" min="0" class="form-control border-start-0" name="distance_km" placeholder="e.g. 15.5" required>
+                                </div>
+                            </div>
+
+                            <!-- Electricity Usage -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Electricity Usage (kWh)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-bolt text-warning"></i></span>
+                                    <input type="number" step="0.01" min="0" class="form-control border-start-0" name="electricity_kwh" placeholder="e.g. 10.2" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Renewable % -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Renewable Energy (%)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-solar-panel text-warning"></i></span>
+                                    <input type="number" step="1" min="0" max="100" class="form-control border-start-0" name="renewable_usage_pct" placeholder="e.g. 20" required>
+                                </div>
+                            </div>
+
+                            <!-- Food Type -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Dietary Habit</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-utensils text-danger"></i></span>
+                                    <select class="form-select border-start-0" name="food_type" required>
+                                        <option value="" selected disabled>Select Diet...</option>
+                                        <option value="Veg">Vegetarian</option>
+                                        <option value="Non-Veg">Non-Vegetarian</option>
+                                        <option value="Vegan">Vegan</option>
+                                        <option value="Mixed">Mixed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Waste Generated -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Waste Generated (kg)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-trash text-secondary"></i></span>
+                                    <input type="number" step="0.01" min="0" class="form-control border-start-0" name="waste_generated_kg" placeholder="e.g. 1.5" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Screen Time -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Screen Time (hours)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-mobile-screen text-info"></i></span>
+                                    <input type="number" step="0.1" min="0" class="form-control border-start-0" name="screen_time_hours" placeholder="e.g. 6.5" required>
+                                </div>
+                            </div>
+
+                            <!-- Eco Actions -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold text-muted">Eco-Friendly Actions (Count)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-recycle text-success"></i></span>
+                                    <input type="number" step="1" min="0" class="form-control border-start-0" name="eco_actions" placeholder="e.g. 2" required>
+                                </div>
+                                <small class="form-text text-muted ms-2">E.g., recycling, using reusable bags.</small>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-5">
+                            <button type="submit" class="btn btn-success btn-lg py-3 rounded-pill fw-bold shadow">
+                                Predict Carbon Footprint <i class="fa-solid fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+# Python caching
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Flask session and local environment variables
+.env
+.flaskenv
+
+# Local agent artifacts (optional to ignore)
+.gemini/
+antigravity/
+artifacts/
