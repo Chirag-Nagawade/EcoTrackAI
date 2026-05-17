@@ -30,3 +30,7 @@ Thumbs.db
 .gemini/
 antigravity/
 artifacts/
+
+# Local-only visualization tools and generated images
+ml/test_dataset_preview.py
+ml/dataset_preview.png
